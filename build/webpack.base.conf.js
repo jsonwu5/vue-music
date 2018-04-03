@@ -3,7 +3,7 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -18,12 +18,14 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
-  resolve: {
+  resolve: {// 配置别名
     extensions: ['.js', '.vue', '.json'],
     alias: {
       '@': resolve('src'),
       'common': resolve('src/common'),
-      'components': resolve('src/components') // 别名配置
+      'components': resolve('src/components'),
+      'base': resolve('src/base'),
+      'api': resolve('src/api')
     }
   },
   module: {
