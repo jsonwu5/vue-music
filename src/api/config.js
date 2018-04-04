@@ -1,6 +1,6 @@
 // 抛出公共参数，不用为每个请求写同样的参数
 export const commonParams = {
-  g_tk: 5381,
+  g_tk: 1754824856,
   inCharset: 'utf-8',
   outCharset: 'utf-8',
   notice: 0,

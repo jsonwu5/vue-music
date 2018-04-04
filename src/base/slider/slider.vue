@@ -133,7 +133,8 @@
         }, this.interval)
       }
     },
-    destroyed() {// 组件销毁时，清理计时器
+    // 组件销毁时，清理计时器
+    destroyed() {
       clearTimeout(this.timer)
     }
   }

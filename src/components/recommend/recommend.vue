@@ -21,7 +21,7 @@
 
 <script type="text/ecmascript-6">
   import Slider from 'base/slider/slider'
-  import {getRecommend} from 'api/recommend'
+  import {getRecommend, getDiscList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
 
   export default {
@@ -32,15 +32,26 @@
     },
     created() {
       this._getRecommend()
+      this._getDiscList()
     },
     methods: {
       _getRecommend() {
-        // res是API返回的对象
+        // res是API返回的对象,获取推荐列表
         getRecommend().then((res) => {
           // 语义化判断是否值返回成功
           if (res.code === ERR_OK) {
             console.log(res.data.slider)
             this.recommends = res.data.slider
+          }
+        })
+      },
+      _getDiscList() {
+        // 获取歌单列表
+        getDiscList().then((res) => {
+          if (res.code === ERR_OK) {
+            console.log(res.data.list)
+          } else {
+            console.error(res)
           }
         })
       }
