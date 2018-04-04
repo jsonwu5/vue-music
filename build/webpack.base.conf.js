@@ -18,7 +18,7 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
-  resolve: {// 配置别名
+  resolve: {// 给目录配置别名
     extensions: ['.js', '.vue', '.json'],
     alias: {
       '@': resolve('src'),
