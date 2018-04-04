@@ -6,7 +6,9 @@
 </template>
 <script type="text/ecmascript-6">
   export default {
+    // 外部传入的参数
     props: {
+      // 默认文案
       title: {
         type: String,
         default: '正在载入...'
