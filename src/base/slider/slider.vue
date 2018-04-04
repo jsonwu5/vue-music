@@ -132,6 +132,9 @@
           this.slider.goToPage(pageIndex, 0, 400)
         }, this.interval)
       }
+    },
+    destroyed() {// 组件销毁时，清理计时器
+      clearTimeout(this.timer)
     }
   }
 </script>
