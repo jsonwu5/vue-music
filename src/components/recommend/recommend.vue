@@ -1,12 +1,12 @@
 <template>
   <div class="recommend">
-    <scroll class="recommend-content" :data="discList">
+    <scroll ref="scroll" class="recommend-content" :data="discList">
       <div>
         <div v-if="recommends.length" class="slider-wrapper">
           <slider>
             <div v-for="item in recommends">
               <a :href="item.linkUrl">
-                <img :src="item.picUrl"/>
+                <img @load="loadImage" :src="item.picUrl"/>
               </a>
             </div>
           </slider>
@@ -69,6 +69,15 @@
             console.error(res)
           }
         })
+      },
+      // 监听轮播图组件的图片渲染出来并撑开高度，然后才计算滚动的高度
+      loadImage() {
+        // 判断，只在第一张图片撑开高度时，调用一次scroll.refresh()重新计算
+        if (!this.checkloaded) {
+          this.$refs.scroll.refresh()
+          // 标志位设为true
+          this.checkloaded = true
+        }
       }
     },
     components: {
