@@ -20,6 +20,10 @@
       data: {
         type: Array,
         default: null
+      },
+      listenScroll: {
+        type: Boolean,
+        default: false
       }
     },
     // 组件准备好时
@@ -39,8 +43,16 @@
           probeType: this.probeType,
           click: this.click
         })
+
+        if (this.listenScroll) {
+          // 保留外层的this
+          // let me = this
+          this.scroll.on('scroll', (pos) => {
+            this.$emit('scroll', pos)
+          })
+        }
       },
-      // 代理几个方法
+      // 代理几个方法，拓展方法，对外提供方法
       enable() {
         this.scroll && this.scroll.enable()
       },
@@ -50,6 +62,12 @@
       refresh() {
         // 重新计算高度
         this.scroll && this.scroll.refresh()
+      },
+      scrollTo() {
+        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+      },
+      scrollToElement() {
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
     // 监听data的变化

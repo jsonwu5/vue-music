@@ -68,7 +68,7 @@
       // isResize：标识位，是否为resize
       _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
-        console.log(this.children.length)
+        // console.log(this.children.length)
 
         // 设置sliderGroup的宽度
         let width = 0

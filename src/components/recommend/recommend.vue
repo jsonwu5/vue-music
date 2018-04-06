@@ -57,7 +57,7 @@
         getRecommend().then((res) => {
           // 语义化判断是否值返回成功
           if (res.code === ERR_OK) {
-            console.log(res.data.slider)
+            // console.log(res.data.slider)
             this.recommends = res.data.slider
           }
         })

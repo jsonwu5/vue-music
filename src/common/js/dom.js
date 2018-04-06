@@ -29,3 +29,22 @@ export function hasClass(el, className) {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
 }
+
+/**
+ * 获取DOM中 data- 后面指定的 data-XXX 的值
+ * @param el {Object} DOM
+ * @param name {String} data-后面的name
+ * @param val {String} 值，用来拓展
+ * @return {*} 返回值
+ */
+export function getData(el, name, val) {
+  const prefix = 'data-'
+  name = prefix + name
+  // 如果有值，则设置 data- name 的值为 val
+  if (val) {
+    return el.setAttribute(name, val)
+  } else {
+    // 没有值就获取 data-XXX 的值
+    return el.getAttribute(name)
+  }
+}
