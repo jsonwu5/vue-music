@@ -10,7 +10,7 @@
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
         <ul>
-          <li v-for="item in group.items" class="list-group-item">
+          <li @click="selectItem(item)" v-for="item in group.items" class="list-group-item">
             <img class="avatar" v-lazy="item.avatar"/>
             <span class="name">{{item.name}}</span>
           </li>
@@ -88,6 +88,10 @@
       }
     },
     methods: {
+      // 歌手点击事件派发，告诉外部我被点击了点击了什么
+      selectItem(item) {
+        this.$emit('select', item)
+      },
       onShortcutTouchStart(e) {
         // 获取 data-index 属性的值
         let anchorIndex = getData(e.target, 'index')
