@@ -4,8 +4,9 @@
     <tab></tab>
     <!--缓存到内存-->
     <keep-alive>
-    <router-view></router-view>
+      <router-view></router-view>
     </keep-alive>
+    <player></player>
   </div>
 </template>
 
@@ -14,11 +15,13 @@
   // 在webpack.base.conf.js中配置components的别名
   import MHeader from 'components/m-header/m-header'
   import Tab from 'components/tab/tab'
+  import Player from 'components/player/player'
 
   export default {
     components: {// 注册
       MHeader,
-      Tab
+      Tab,
+      Player
     }
   }
 </script>
