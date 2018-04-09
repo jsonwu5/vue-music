@@ -48,3 +48,46 @@ export function getData(el, name, val) {
     return el.getAttribute(name)
   }
 }
+
+// 能力检测，创建一个标签并获取style
+let elementStyle = document.createElement('div').style
+
+// 供应商前缀支持检测
+let vendor = (() => {
+  let transformNames = {
+    webkit: 'webkitTransform',
+    Moz: 'MozTransform',
+    O: 'OTransform',
+    ms: 'msTransform',
+    standard: 'transform'
+  }
+
+  // 检测支持哪个前缀
+  for (let key in transformNames) {
+    if (elementStyle[transformNames[key]] !== undefined) {
+      return key
+    }
+  }
+
+  return false
+})()
+
+/**
+ * 检测浏览器前缀兼容性自动添加相应前缀
+ * @param style {String} 需要加前缀的样式Name
+ * @return {*} 返回已加前缀的样式Name
+ */
+export function prefixStyle(style) {
+  // 都不满足
+  if (vendor === false) {
+    return false
+  }
+
+  // 如果支持标准的，返回原始样式
+  if (vendor === 'standard') {
+    return style
+  }
+  // 浏览器前缀 + 上样式的首字母大写 + 剩余字符串
+  // substr：从起始索引号提取字符串中指定数目的字符。
+  return vendor + style.charAt(0).toUpperCase() + style.substr(1)
+}
