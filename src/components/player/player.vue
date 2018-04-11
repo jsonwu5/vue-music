@@ -302,6 +302,8 @@
         // DOM加载完成后播放音乐
         this.$nextTick(() => {
           this.$refs.audio.play()
+          // 获取歌词
+          this.currentSong.getLyric()
         })
       },
       playing(newPlaying) {
