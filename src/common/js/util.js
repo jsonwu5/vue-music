@@ -2,12 +2,18 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+/**
+ * 随机打乱歌曲列表，洗牌函数
+ * @param arr
+ * @return {*}
+ */
 export function shuffle(arr) {
-  for (let i = 0; i < arr.length; i++) {
+  let _arr = arr.slice()
+  for (let i = 0; i < _arr.length; i++) {
     let j = getRandomInt(0, i)
-    let t = arr[i]
-    arr[i] = arr[j]
-    arr[j] = t
+    let t = _arr[i]
+    _arr[i] = _arr[j]
+    _arr[j] = t
   }
-  return arr
+  return _arr
 }

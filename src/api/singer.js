@@ -20,6 +20,11 @@ export function getSingerList() {
   return jsonp(url, data, options)
 }
 
+/**
+ * 获取歌手信息
+ * @param singerId {String} 歌手ID singermid
+ * JFla：004McHvm2L4TD4
+ */
 export function getSingerDetail(singerId) {
   const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
 
