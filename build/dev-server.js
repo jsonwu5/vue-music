@@ -44,6 +44,35 @@ apiRoutes.get('/getDiscList', function (req, res) {
   })
 })
 
+// 代理转发qq歌单获取歌曲列表接口
+apiRoutes.get('/getCdInfo', function (req, res) {
+  var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+
+  axios.get(url, {
+    headers: {
+      referer: 'https://c.y.qq.com/',
+      host: 'c.y.qq.com'
+    },
+    params: req.query
+  }).then((response) => {
+    var ret = response.data
+    if (typeof ret === 'string') {
+      // 正则匹配括号里面的JSON字符串内容
+      // var reg = /^\w+\(({[^()]+})\)$/
+      // 查找非单词字符开头 一到多个 ({ 括号内 查找单个字符一到多个
+      var reg = /^\w+\(({.+})\)$/
+      var matches = ret.match(reg)
+      if (matches) {
+        ret = JSON.parse(matches[1])
+      }
+    }
+    // 将结果输出到浏览器端
+    res.json(ret)
+  }).catch((e) => {
+    console.log(e)
+  })
+})
+
 // 代理转发qq歌词接口
 apiRoutes.get('/lyric', function (req, res) {
   var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'

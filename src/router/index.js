@@ -5,18 +5,30 @@ import Singer from 'components/singer/singer'
 import Rank from 'components/rank/rank'
 import Search from 'components/search/search'
 import SingerDetail from 'components/singer-detail/singer-detail'
+import Disc from 'components/disc/disc'
 
 Vue.use(Router)
 
-export default new Router({// 注册
-  routes: [// 配置路由
+// 注册
+export default new Router({
+  // 配置路由
+  routes: [
     {
       path: '/',
       redirect: '/recommend'
-    }, {  // }{ 中间需要留空格
+    },
+    {
+      // }{ 中间需要留空格
       path: '/recommend',
-      component: Recommend
-    }, {
+      component: Recommend,
+      children: [
+        {
+          path: ':id',
+          component: Disc
+        }
+      ]
+    },
+    {
       path: '/singer',
       component: Singer,
       // 子组件路由
@@ -27,10 +39,12 @@ export default new Router({// 注册
           component: SingerDetail
         }
       ]
-    }, {
+    },
+    {
       path: '/rank',
       component: Rank
-    }, {
+    },
+    {
       path: '/search',
       component: Search
     }
