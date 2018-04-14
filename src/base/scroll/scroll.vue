@@ -24,6 +24,10 @@
       listenScroll: {
         type: Boolean,
         default: false
+      },
+      pullup: {
+        type: Boolean,
+        default: false
       }
     },
     // 组件准备好时
@@ -49,6 +53,16 @@
           // let me = this
           this.scroll.on('scroll', (pos) => {
             this.$emit('scroll', pos)
+          })
+        }
+
+        // 下拉刷新事件
+        if (this.pullup) {
+          this.scroll.on('scrollEnd', () => {
+            // 拉至底部
+            if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+              this.$emit('scrollToEnd')
+            }
           })
         }
       },
