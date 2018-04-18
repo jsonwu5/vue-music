@@ -17,3 +17,22 @@ export function shuffle(arr) {
   }
   return _arr
 }
+
+/**
+ * 节流函数
+ * @param func {function} 一个函数
+ * @param delay {Number} 延迟时间
+ * @return {Function}
+ */
+export function debounce(func, delay) {
+  let timer
+
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
+}
