@@ -1,6 +1,8 @@
 import {playMode} from 'common/js/config'
+import {loadSearch} from 'common/js/cache'
 
 const state = {
+  // 歌手列表
   singer: {},
   // 播放状态
   playing: false,
@@ -17,7 +19,9 @@ const state = {
   // 歌单对象
   disc: {},
   // 排行榜Top
-  topList: {}
+  topList: {},
+  // 搜索历史,从本地读取搜索历史列表
+  searchHistory: loadSearch()
 }
 
 export default state

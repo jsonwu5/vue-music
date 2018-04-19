@@ -110,6 +110,8 @@
         } else {
           this.insertSong(item)
         }
+        // 派发事件，存储搜索历史
+        this.$emit('select')
       },
       listScroll() {
         this.$emit('listScroll')
