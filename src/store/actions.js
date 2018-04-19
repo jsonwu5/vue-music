@@ -1,7 +1,7 @@
 import * as types from './mutation-types'
 import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'
-import {saveSearch} from 'common/js/cache'
+import {saveSearch, deleteSearch, clearSearch} from 'common/js/cache'
 
 /**
  * 查找当前列表中是否有这首歌曲并返回其索引
@@ -112,4 +112,21 @@ export const insertSong = function ({commit, state}, song) {
  */
 export const saveSearchHistory = function ({commit}, query) {
   commit(types.SET_SEARCH_HISTORY, saveSearch(query))
+}
+
+/**
+ * 删除搜索记录，返回新的数组
+ * @param commit
+ * @param query
+ */
+export const deleteSearchHistory = function ({commit}, query) {
+  commit(types.SET_SEARCH_HISTORY, deleteSearch(query))
+}
+
+/**
+ * 删除全部搜索历史
+ * @param commit
+ */
+export const clearSearchHistory = function ({commit}) {
+  commit(types.SET_SEARCH_HISTORY, clearSearch())
 }

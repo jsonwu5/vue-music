@@ -34,10 +34,23 @@ function insertArray(arr, val, compare, maxLen) {
 }
 
 /**
+ * 删除搜索历史记录
+ * @param arr
+ * @param compare
+ */
+function deleteFromArray(arr, compare) {
+  const index = arr.findIndex(compare)
+  if (index > -1) {
+    arr.splice(index, 1)
+  }
+}
+
+/**
  * 保存搜索历史记录到storage
  * @param query
  */
 export function saveSearch(query) {
+  // 获取缓存中的列表
   let searches = storage.get(SEARCH_KEY, [])
   insertArray(searches, query, (item) => {
     return item === query
@@ -52,4 +65,28 @@ export function saveSearch(query) {
  */
 export function loadSearch() {
   return storage.get(SEARCH_KEY, [])
+}
+
+/**
+ * 删除搜索历史记录
+ * @param query
+ * @return {*}
+ */
+export function deleteSearch(query) {
+  // 获取缓存中的列表
+  let searches = storage.get(SEARCH_KEY, [])
+  deleteFromArray(searches, (item) => {
+    return item === query
+  })
+  storage.set(SEARCH_KEY, searches)
+  return searches
+}
+
+/**
+ * 清空全部搜索历史
+ * @return {Array}
+ */
+export function clearSearch() {
+  storage.remove(SEARCH_KEY)
+  return []
 }
