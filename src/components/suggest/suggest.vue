@@ -113,6 +113,9 @@
         // 派发事件，存储搜索历史
         this.$emit('select')
       },
+      refresh() {
+        this.$refs.suggest.refresh()
+      },
       listScroll() {
         this.$emit('listScroll')
       },
