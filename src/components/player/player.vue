@@ -88,12 +88,12 @@
             <i @click.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click.stop="showPlaylist">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
-    <playlist></playlist>
+    <playlist ref="playlist"></playlist>
     <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"
            @ended="end"></audio>
   </div>
@@ -344,6 +344,9 @@
         // 显示当前播放歌词
         this.playingLyric = txt
       },
+      showPlaylist() {
+        this.$refs.playlist.show()
+      },
       middleTouchStart(e) {
         this.touch.initiated = true
         const touch = e.touches[0]
@@ -434,6 +437,9 @@
     },
     watch: {
       currentSong(newSong, oldSong) {
+        if (!newSong.id) {
+          return
+        }
         if (newSong.id === oldSong.id) {
           return
         }
