@@ -445,6 +445,9 @@
         }
         if (this.currentLyric) {
           this.currentLyric.stop()
+          this.currentTime = 0
+          this.playingLyric = ''
+          this.currentLineNum = 0
         }
         // DOM加载完成后播放音乐
         setTimeout(() => {

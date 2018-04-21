@@ -155,10 +155,18 @@ export const deleteSong = function ({commit, state}, song) {
   commit(types.SET_SEQUENCE_LIST, sequenceList)
   commit(types.SET_CURRENT_INDEX, currentIndex)
 
+  const playingState = playlist.length > 0
   // 整个列表删除完了
-  if (!playlist.length) {
-    commit(types.SET_PLAYING_STATE, false)
-  } else {
-    commit(types.SET_PLAYING_STATE, true)
-  }
+  commit(types.SET_PLAYING_STATE, playingState)
+}
+
+/**
+ * 删除播放列表
+ * @param commit
+ */
+export const deleteSongList = function ({commit}) {
+  commit(types.SET_CURRENT_INDEX, -1)
+  commit(types.SET_PLAYLIST, [])
+  commit(types.SET_SEQUENCE_LIST, [])
+  commit(types.SET_PLAYING_STATE, false)
 }
