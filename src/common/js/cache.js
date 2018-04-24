@@ -5,6 +5,11 @@ const SEARCH_KEY = '__search__'
 // 最大条数
 const SEARCH_MAX_LENGTH = 15
 
+// 播放key
+const PLAY_KEY = '__play__'
+// 最大播放歌曲历史数据条数
+const PLAY_MAX_LENGTH = 200
+
 /**
  * 插入一条并删除最后一条，保持15条
  * @param arr {Array} 存储的数组
@@ -89,4 +94,28 @@ export function deleteSearch(query) {
 export function clearSearch() {
   storage.remove(SEARCH_KEY)
   return []
+}
+
+/**
+ * 存储当前的sonog
+ * @param song
+ */
+export function savePlay(song) {
+  // 没有的话默认为空数组
+  let songs = storage.get(PLAY_KEY, [])
+  // 插入当前歌曲，如果存在则挪到前面
+  insertArray(songs, song, (item) => {
+    return item.id === song.id
+  }, PLAY_MAX_LENGTH)
+  storage.set(PLAY_KEY, songs)
+  // 返回新的数组
+  return songs
+}
+
+/**
+ * 读取播放歌曲历史数据
+ * @return {*}
+ */
+export function loadPlay() {
+  return storage.get(PLAY_KEY, [])
 }
