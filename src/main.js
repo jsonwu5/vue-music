@@ -8,6 +8,11 @@ import VueLazyLoad from 'vue-lazyload'
 
 import 'common/stylus/index.styl'
 
+/* eslint-disable no-unused-vars */
+// import vConsole from 'vconsole'
+
+console.log('test')
+
 // 调用fastclick，attach到body，让body下的所有div点击都没有3秒的延迟
 fastclick.attach(document.body)
 
