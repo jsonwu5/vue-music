@@ -77,7 +77,6 @@
       _getHotKey() {
         getHotKey().then((res) => {
           if (res.code === ERR_OK) {
-            console.log(res.data.hotkey)
             // 截取前十条数据
             this.hotKey = res.data.hotkey.slice(0, 10)
           }
