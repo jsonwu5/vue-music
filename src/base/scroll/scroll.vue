@@ -32,6 +32,10 @@
       beforeScroll: {
         type: Boolean,
         default: false
+      },
+      refreshDelay: {
+        type: Number,
+        default: 20
       }
     },
     // 组件准备好时
@@ -100,7 +104,7 @@
         setTimeout(() => {
           // 重新计算组件高度
           this.refresh()
-        }, 20)
+        }, this.refreshDelay)
       }
     }
   }
