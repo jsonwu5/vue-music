@@ -94,7 +94,7 @@
       </div>
     </transition>
     <playlist ref="playlist"></playlist>
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"
+    <audio ref="audio" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime"
            @ended="end"></audio>
   </div>
 </template>
@@ -235,6 +235,7 @@
         // 当列表只有一条数据时
         if (this.playlist.length === 1) {
           this.loop()
+          return
         } else {
           let index = this.currentIndex + 1
           if (index === this.playlist.length) {
@@ -252,6 +253,7 @@
         // 当列表只有一条数据时
         if (this.playlist.length === 1) {
           this.loop()
+          return
         } else {
           // 歌曲没准备好时不让点击
           if (!this.songReady) {
@@ -300,6 +302,10 @@
       },
       getLyric() {
         this.currentSong.getLyric().then((lyric) => {
+          // 当歌词不等于这首歌的歌词时
+          if (this.currentSong.lyric !== lyric) {
+            return
+          }
           this.currentLyric = new Lyric(lyric, this.handleLyric)
           if (this.playing) {
             this.currentLyric.play()
@@ -427,7 +433,8 @@
           this.currentLineNum = 0
         }
         // DOM加载完成后播放音乐
-        setTimeout(() => {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
           // 延迟一秒，优化在微信播放
           this.$refs.audio.play()
           // 获取歌词
