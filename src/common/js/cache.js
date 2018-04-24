@@ -10,6 +10,11 @@ const PLAY_KEY = '__play__'
 // 最大播放歌曲历史数据条数
 const PLAY_MAX_LENGTH = 200
 
+// 收藏歌曲key
+const FAVORITE_KEY = '__favorite__'
+// 最大收藏条数
+const FAVORITE_MAX_LENGTH = 200
+
 /**
  * 插入一条并删除最后一条，保持15条
  * @param arr {Array} 存储的数组
@@ -118,4 +123,40 @@ export function savePlay(song) {
  */
 export function loadPlay() {
   return storage.get(PLAY_KEY, [])
+}
+
+/**
+ * 收藏歌曲并保存到本地
+ * @param song
+ * @return {*}
+ */
+export function saveFavorite(song) {
+  let songs = storage.get(FAVORITE_KEY, [])
+  insertArray(songs, song, (item) => {
+    return song.id === item.id
+  }, FAVORITE_MAX_LENGTH)
+  storage.set(FAVORITE_KEY, songs)
+  return songs
+}
+
+/**
+ * 取消收藏歌曲并从本地删除收藏的歌曲
+ * @param song
+ * @return {*}
+ */
+export function deleteFavorite(song) {
+  let songs = storage.get(FAVORITE_KEY, [])
+  deleteFromArray(songs, (item) => {
+    return song.id === item.id
+  })
+  storage.set(FAVORITE_KEY, songs)
+  return songs
+}
+
+/**
+ * 从本地读取收藏的歌曲数据
+ * @return {*}
+ */
+export function loadFavorite() {
+  return storage.get(FAVORITE_KEY, [])
 }

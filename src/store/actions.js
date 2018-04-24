@@ -1,7 +1,7 @@
 import * as types from './mutation-types'
 import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'
-import {saveSearch, deleteSearch, clearSearch, savePlay} from 'common/js/cache'
+import {saveSearch, deleteSearch, clearSearch, savePlay, saveFavorite, deleteFavorite} from 'common/js/cache'
 
 /**
  * 查找当前列表中是否有这首歌曲并返回其索引
@@ -178,4 +178,22 @@ export const deleteSongList = function ({commit}) {
  */
 export const savePlayHistory = function ({commit}, song) {
   commit(types.SET_PLAY_HISTORY, savePlay(song))
+}
+
+/**
+ * 保存收藏歌曲
+ * @param commit
+ * @param song {JSON} 当前点击的歌曲
+ */
+export const saveFavoriteList = function ({commit}, song) {
+  commit(types.SET_FAVORITE_LIST, saveFavorite(song))
+}
+
+/**
+ * 取消收藏歌曲
+ * @param commit
+ * @param song {JSON} 当前点击的歌曲
+ */
+export const deleteFavoriteList = function ({commit}, song) {
+  commit(types.SET_FAVORITE_LIST, deleteFavorite(song))
 }
