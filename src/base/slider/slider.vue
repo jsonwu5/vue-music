@@ -133,10 +133,19 @@
         }, this.interval)
       }
     },
+    activated() {
+      if (this.autoPlay) {
+        this._play()
+      }
+    },
     // 组件销毁时，清理计时器
-    destroyed() {
+    deactivated() {
       clearTimeout(this.timer)
-    }
+    },
+    beforeDestroy() {
+      this.slider.disable()
+      clearTimeout(this.timer)
+    },
   }
 </script>
 
