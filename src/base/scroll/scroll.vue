@@ -7,6 +7,9 @@
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
 
+  const DIRECTION_H = 'horizontal'
+  const DIRECTION_V = 'vertical'
+
   export default {
     props: {// 详情见 better-scroll  README
       probeType: {// 监听滚动事件
@@ -15,7 +18,7 @@
       },
       click: {
         type: Boolean,
-        default: true
+        default: false
       },
       data: {
         type: Array,
@@ -36,6 +39,10 @@
       refreshDelay: {
         type: Number,
         default: 20
+      },
+      direction: {
+        type: String,
+        default: DIRECTION_V
       }
     },
     // 组件准备好时
@@ -53,12 +60,12 @@
         }
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
-          click: this.click
+          click: this.click,
+          eventPassthrough: this.direction === DIRECTION_V ? DIRECTION_H : DIRECTION_V
         })
 
         if (this.listenScroll) {
           // 保留外层的this
-          // let me = this
           this.scroll.on('scroll', (pos) => {
             this.$emit('scroll', pos)
           })
@@ -104,6 +111,7 @@
         setTimeout(() => {
           // 重新计算组件高度
           this.refresh()
+          console.log('刷新scroll');
         }, this.refreshDelay)
       }
     }

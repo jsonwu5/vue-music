@@ -41,7 +41,10 @@ export const playerMixin = {
       'playlist',
       'mode',
       'favoriteList'
-    ])
+    ]),
+    favoriteIcon() {
+      return this.getFavoriteIcon(this.currentSong)
+    }
   },
   methods: {
     changeMode() {
@@ -116,7 +119,8 @@ export const searchMixin = {
       this.saveSearchHistory(this.query)
     },
     onQueryChange(query) {
-      this.query = query
+      // 处理带空格的情况
+      this.query = query.trim()
     },
     addQuery(query) {
       this.$refs.searchBox.setQuery(query)

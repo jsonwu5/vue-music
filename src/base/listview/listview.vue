@@ -17,7 +17,8 @@
         </ul>
       </li>
     </ul>
-    <div class="list-shortcut" @touchstart="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove">
+    <div class="list-shortcut" @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove"
+         @touchend.stop>
       <ul>
         <li v-for="(item,index) in shortcutList"
             class="item"
@@ -112,7 +113,6 @@
         let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
         // 计算该滚动到第几个位置,先转为整形数，再相加
         let anchorIndex = parseInt(this.touch.anchorIndex) + delta
-        console.log(anchorIndex)
         this._scrollTo(anchorIndex)
       },
       refresh() {
@@ -133,10 +133,9 @@
         } else if (index > this.listHeight.length - 2) {
           index = this.listHeight.length - 2
         }
-        // 手动获取位置
-        this.scrollY = -this.listHeight[index]
         // 参数1：滚动位置，参数2：滚动动画，0不需要
         this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
+        this.scrollY = this.$refs.listview.scroll.y
       },
       _calculateHeight() {
         this.listHeight = []

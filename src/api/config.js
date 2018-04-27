@@ -8,7 +8,8 @@ export const commonParams = {
 }
 
 export const options = {
-  param: 'jsonpCallback'
+  param: 'jsonpCallback',
+  prefix: 'jp'
 }
 
 // 语义化状态码，常量，0表示正确的值

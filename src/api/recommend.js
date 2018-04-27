@@ -2,6 +2,8 @@ import jsonp from 'common/js/jsonp'
 import {commonParams, options} from './config'
 import axios from 'axios'
 
+const debug = process.env.NODE_ENV !== 'production'
+
 /**
  * 利用JSONP封装请求
  */
@@ -25,7 +27,11 @@ export function getRecommend() {
 }
 
 export function getDiscList() {
-  const url = '/api/getDiscList'
+
+  // 线上环境地址，同学们根据自己的需要配置修改
+  const url = debug ? '/api/getDiscList' : 'http://ustbhuangyi.com/music/api/getDiscList'
+
+  // const url = '/api/getDiscList'
 
   // 拷贝参数
   const data = Object.assign({}, commonParams, {
@@ -52,7 +58,7 @@ export function getDiscList() {
  * @param disstid {String} 歌单ID
  */
 export function getSongList(disstid) {
-  const url = 'api/getCdInfo'
+  const url = debug ? '/api/getCdInfo' : 'http://ustbhuangyi.com/music/api/getCdInfo'
 
   const data = Object.assign({}, commonParams, {
     disstid,

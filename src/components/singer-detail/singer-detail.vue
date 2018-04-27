@@ -6,11 +6,11 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapGetters} from 'vuex'
-  import {getSingerDetail} from 'api/singer'
-  import {ERR_OK} from 'api/config'
-  import {createSong} from 'common/js/song'
   import MusicList from 'components/music-list/music-list'
+  import { getSingerDetail } from 'api/singer'
+  import { ERR_OK } from 'api/config'
+  import { createSong, isValidMusic, processSongsUrl } from 'common/js/song'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -44,7 +44,9 @@
         }
         getSingerDetail(this.singer.id).then((res) => {
           if (res.code === ERR_OK) {
-            this.songs = this._normalizeSongs(res.data.list)
+            processSongsUrl(this._normalizeSongs(res.data.list)).then((songs) => {
+              this.songs = songs
+            })
           }
         })
       },
@@ -52,7 +54,7 @@
         let ret = []
         list.forEach((item) => {
           let {musicData} = item
-          if (musicData.songid && musicData.albummid) {
+          if (isValidMusic(musicData)) {
             // 传入一个song的实例
             ret.push(createSong(musicData))
           }

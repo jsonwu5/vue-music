@@ -34,7 +34,6 @@
   import Switches from 'base/switches/switches'
   import Scroll from 'base/scroll/scroll'
   import SongList from 'base/song-list/song-list'
-  import Song from 'common/js/song'
   import NoResult from 'base/no-result/no-result'
   import {mapGetters, mapActions} from 'vuex'
   import {playlistMixin} from 'common/js/mixin'
@@ -82,16 +81,13 @@
         this.currentIndex = index
       },
       selectSong(song) {
-        this.insertSong(new Song(song))
+        this.insertSong(song)
       },
       back() {
         this.$router.back()
       },
       random() {
         let list = this.currentIndex === 0 ? this.favoriteList : this.playHistory
-        if (list.length === 0) {
-          return
-        }
         if (list.length === 0) {
           return
         }

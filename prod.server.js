@@ -1,6 +1,8 @@
 var express = require('express')
+var compression = require('compression')
 var config = require('./config/index')
 var axios = require('axios')
+const bodyParser = require('body-parser')
 
 var app = express()
 
@@ -68,7 +70,7 @@ apiRoutes.get('/lyric', function (req, res) {
     var ret = response.data
     if (typeof ret === 'string') {
       // 正则匹配括号里面的JSON字符串内容
-      var reg = /^\w+\(({[^()]+})\)$/
+      var reg = /^\w+\(({.+})\)$/
       var matches = ret.match(reg)
       if (matches) {
         ret = JSON.parse(matches[1])
@@ -81,8 +83,24 @@ apiRoutes.get('/lyric', function (req, res) {
   })
 })
 
+app.post('/api/getPurlUrl', bodyParser.json(), function (req, res) {
+  const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+  axios.post(url, req.body, {
+    headers: {
+      referer: 'https://y.qq.com/',
+      origin: 'https://y.qq.com',
+      'Content-type': 'application/x-www-form-urlencoded'
+    }
+  }).then((response) => {
+    res.json(response.data)
+  }).catch((e) => {
+    console.log(e)
+  })
+})
+
 app.use('/api', apiRoutes)
-// 结束
+
+app.use(compression())
 
 // 将dist目录作为静态资源目录
 app.use(express.static('./dist'))

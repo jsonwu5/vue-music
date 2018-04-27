@@ -10,11 +10,11 @@
           </h1>
         </div>
         <scroll ref="listContent" :refreshDelay="refreshDelay" :data="sequenceList" class="list-content">
-          <transition-group name="list" tag="ul">
-            <li :key="item.id" ref="listItem" class="item" v-for="(item,index) in sequenceList"
+          <transition-group ref="list" name="list" tag="ul">
+            <li :key="item.id" class="item" v-for="(item,index) in sequenceList"
                 @click="selectItem(item,index)">
               <i class="current" :class="getCurrentIcon(item)"></i>
-              <span class="text">{{item.name}}</span>
+              <span class="text" v-html="item.name"></span>
               <span @click.stop="toggleFavorite(item)" class="like">
                 <i :class="getFavoriteIcon(item)"></i>
               </span>
@@ -93,13 +93,20 @@
         const index = this.sequenceList.findIndex((song) => {
           return current.id === song.id
         })
-        this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 300)
+        this.$refs.listContent.scrollToElement(this.$refs.list.$el.children[index], 300)
       },
       deleteOne(item) {
+        if (item.deleting) {
+          return
+        }
+        item.deleting = true
         this.deleteSong(item)
         if (!this.playlist.length) {
           this.hide()
         }
+        setTimeout(() => {
+          item.deleting = false
+        }, 300)
       },
       showConfirm() {
         this.$refs.confirm.show()
@@ -121,7 +128,9 @@
         if (!this.showFlag || newSong.id === oldSong.id) {
           return
         }
-        this.scrollToCurrent(newSong)
+        setTimeout(() => {
+          this.scrollToCurrent(newSong)
+        }, 20)
       }
     },
     components: {

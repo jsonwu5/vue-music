@@ -55,16 +55,29 @@
       // 监听窗口变化
       window.addEventListener('resize', () => {
         // 如果还没有创建则什么都不做
-        if (!this.slider) {
+        if (!this.slider || !this.slider.enabled) {
           return
         }
-        // 重新计算宽度
-        this._setSliderWidth(true)
-        // better-scroll方法，刷新轮播图
-        this.slider.refresh()
+        clearTimeout(this.resizeTimer)
+        this.resizeTimer = setTimeout(() => {
+          if (this.slider.isInTransition) {
+            this._onScrollEnd()
+          } else {
+            if (this.autoPlay) {
+              this._play()
+            }
+          }
+          this.refresh()
+        }, 60)
       })
     },
     methods: {
+      refresh() {
+        if (this.slider) {
+          this._setSliderWidth(true)
+          this.slider.refresh()
+        }
+      },
       // isResize：标识位，是否为resize
       _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
@@ -101,48 +114,59 @@
           scrollX: true,
           scrollY: false,
           momentum: false,
-          snap: true,
-          snapLoop: this.loop,  // 无缝循环
-          snapThreshold: 0.3,
-          snapSpeed: 400
-        })
-        // 绑定滚动完毕事件，每次滚动完毕
-        this.slider.on('scrollEnd', () => {
-          let pageIndex = this.slider.getCurrentPage().pageX
-          if (this.loop) {
-            pageIndex -= 1
+          snap: {
+            loop: this.loop,
+            threshold: 0.3,
+            speed: 400
           }
-          this.currentPageIndex = pageIndex
+        })
 
-          // 无限轮播
+        // 绑定滚动完毕事件，每次滚动完毕
+        this.slider.on('scrollEnd', this._onScrollEnd)
+
+        this.slider.on('touchend', () => {
           if (this.autoPlay) {
-            // 自动轮播前先清除掉Timer
-            clearTimeout(this.timer)
             this._play()
           }
         })
+
+        this.slider.on('beforeScrollStart', () => {
+          if (this.autoPlay) {
+            clearTimeout(this.timer)
+          }
+        })
+      },
+      _onScrollEnd() {
+        let pageIndex = this.slider.getCurrentPage().pageX
+        this.currentPageIndex = pageIndex
+        if (this.autoPlay) {
+          this._play()
+        }
       },
       _play() {
-        let pageIndex = this.currentPageIndex + 1
-        if (this.loop) {
-          pageIndex += 1
-        }
+        clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           // Batter-scroll的方法，0代表Y方向，400表示时间间隔
-          this.slider.goToPage(pageIndex, 0, 400)
+          this.slider.next()
         }, this.interval)
       }
     },
     activated() {
+      this.slider.enable()
+      let pageIndex = this.slider.getCurrentPage().pageX
+      this.slider.goToPage(pageIndex, 0, 0)
+      this.currentPageIndex = pageIndex
       if (this.autoPlay) {
         this._play()
       }
     },
     // 组件销毁时，清理计时器
     deactivated() {
+      this.slider.disable()
       clearTimeout(this.timer)
     },
     beforeDestroy() {
+      this.slider.disable()
       this.slider.disable()
       clearTimeout(this.timer)
     },
@@ -176,6 +200,7 @@
       right: 0
       left: 0
       bottom: 12px
+      transform: translateZ(1px)
       text-align: center
       font-size: 0
       .dot

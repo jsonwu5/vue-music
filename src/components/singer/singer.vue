@@ -1,6 +1,6 @@
 <template>
   <div class="singer" ref="singer">
-    <listview @select="selectSinger" :data="singers" ref="list"></listview>
+    <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
     <!--挂载子路由-->
     <router-view></router-view>
   </div>
@@ -10,7 +10,7 @@
   import {getSingerList} from 'api/singer'
   import {ERR_OK} from 'api/config'
   import Singer from 'common/js/singer'
-  import Listview from 'base/listview/listview'
+  import ListView from 'base/listview/listview'
   import {mapMutations} from 'vuex'
   import {playlistMixin} from 'common/js/mixin'
 
@@ -102,7 +102,7 @@
       })
     },
     components: {
-      Listview
+      ListView
     }
   }
 
