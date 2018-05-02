@@ -8,7 +8,7 @@
       <div class="play-wrapper">
         <div class="play" v-show="songs.length>0" ref="playBtn" @click="random">
           <i class="icon-play"></i>
-          <span class="text">随机播放</span>
+          <span class="text">随机播放全部</span>
         </div>
       </div>
       <div class="filter" ref="filter"></div>
@@ -32,11 +32,11 @@
 
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
+  import Loading from 'base/loading/loading'
   import SongList from 'base/song-list/song-list'
   import {prefixStyle} from 'common/js/dom'
-  import Loading from 'base/loading/loading'
-  import {mapActions} from 'vuex'
   import {playlistMixin} from 'common/js/mixin'
+  import {mapActions} from 'vuex'
 
   // 预留顶部的偏移量
   const RESERVED_HEIGHT = 40
@@ -120,7 +120,6 @@
         let zIndex = 0
         let scale = 1
         let blur = 0
-        this.$refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`
         const percent = Math.abs(newY / this.imageHeight)
         if (newY > 0) {
           scale = 1 + percent
@@ -128,6 +127,7 @@
         } else {
           blur = Math.min(20 * percent, 20)
         }
+        this.$refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`
         // ios高斯模糊
         this.$refs.filter.style[backdrop] = `blur(${blur}px)`
         // 滚动到顶部时s
@@ -145,8 +145,8 @@
           // 显示按钮
           this.$refs.playBtn.style.display = ''
         }
-        this.$refs.bgImage.style.zIndex = zIndex
         this.$refs.bgImage.style[transform] = `scale(${scale})`
+        this.$refs.bgImage.style.zIndex = zIndex
       }
     },
     components: {

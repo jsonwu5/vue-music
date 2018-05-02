@@ -75,7 +75,7 @@
         this.$refs.listWrapper.style.bottom = bottom
         // 判断后再refresh
         this.$refs.favoriteList && this.$refs.favoriteList.refresh()
-        this.$refs.playlist && this.$refs.playlist.refresh()
+        this.$refs.playList && this.$refs.playList.refresh()
       },
       switchItem(index) {
         this.currentIndex = index

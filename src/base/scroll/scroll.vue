@@ -111,7 +111,6 @@
         setTimeout(() => {
           // 重新计算组件高度
           this.refresh()
-          console.log('刷新scroll');
         }, this.refreshDelay)
       }
     }

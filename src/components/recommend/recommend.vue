@@ -37,12 +37,12 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import Slider from 'base/slider/slider'
   import Loading from 'base/loading/loading'
   import Scroll from 'base/scroll/scroll'
-  import Slider from 'base/slider/slider'
   import {getRecommend, getDiscList} from 'api/recommend'
-  import {ERR_OK} from 'api/config'
   import {playlistMixin} from 'common/js/mixin'
+  import {ERR_OK} from 'api/config'
   import {mapMutations} from 'vuex'
 
   export default {
@@ -65,8 +65,20 @@
     methods: {
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
+
         this.$refs.recommend.style.bottom = bottom
         this.$refs.scroll.refresh()
+      },
+      // 监听轮播图组件的图片渲染出来并撑开高度，然后才计算滚动的高度
+      loadImage() {
+        // 判断，只在第一张图片撑开高度时，调用一次scroll.refresh()重新计算
+        if (!this.checkloaded) {
+          // 标志位设为true
+          this.checkloaded = true
+          setTimeout(() => {
+            this.$refs.scroll.refresh()
+          }, 20)
+        }
       },
       selectItem(item) {
         this.$router.push({
@@ -93,17 +105,6 @@
             this.discList = res.data.list
           }
         })
-      },
-      // 监听轮播图组件的图片渲染出来并撑开高度，然后才计算滚动的高度
-      loadImage() {
-        // 判断，只在第一张图片撑开高度时，调用一次scroll.refresh()重新计算
-        if (!this.checkloaded) {
-          // 标志位设为true
-          this.checkloaded = true
-          setTimeout(() => {
-            this.$refs.scroll.refresh()
-          }, 20)
-        }
       },
       ...mapMutations({
         setDisc: 'SET_DISC'

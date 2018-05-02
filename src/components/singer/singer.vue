@@ -7,10 +7,10 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import ListView from 'base/listview/listview'
   import {getSingerList} from 'api/singer'
   import {ERR_OK} from 'api/config'
   import Singer from 'common/js/singer'
-  import ListView from 'base/listview/listview'
   import {mapMutations} from 'vuex'
   import {playlistMixin} from 'common/js/mixin'
 
@@ -75,8 +75,8 @@
           }
           // 然后填充到map[key]里面
           map[key].items.push(new Singer({
-            id: item.Fsinger_mid,
-            name: item.Fsinger_name
+            name: item.Fsinger_name,
+            id: item.Fsinger_mid
           }))
         })
         // 为了得到有序列表，我们需要处理map
