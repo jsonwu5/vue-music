@@ -29,7 +29,7 @@ export function getRecommend() {
 export function getDiscList() {
 
   // 线上环境地址，同学们根据自己的需要配置修改
-  const url = debug ? '/api/getDiscList' : 'http://ustbhuangyi.com/music/api/getDiscList'
+  const url = debug ? '/api/getDiscList' : 'http://www.jflastory.com/music/api/getDiscList'
 
   // const url = '/api/getDiscList'
 
@@ -58,7 +58,7 @@ export function getDiscList() {
  * @param disstid {String} 歌单ID
  */
 export function getSongList(disstid) {
-  const url = debug ? '/api/getCdInfo' : 'http://ustbhuangyi.com/music/api/getCdInfo'
+  const url = debug ? '/api/getCdInfo' : 'http://www.jflastory.com/music/api/getCdInfo'
 
   const data = Object.assign({}, commonParams, {
     disstid,
