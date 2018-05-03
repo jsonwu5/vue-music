@@ -5,24 +5,16 @@ import { ERR_OK } from 'api/config'
 
 const debug = process.env.NODE_ENV !== 'production'
 
-/**
- * 获取歌词
- * @param mid {String} 歌曲mid
- * @return {Promise<any>}
- */
 export function getLyric(mid) {
-
   const url = debug ? '/api/lyric' : 'http://www.jflastory.com/music/api/lyric'
-
-  // const url = '/api/lyric'
 
   const data = Object.assign({}, commonParams, {
     songmid: mid,
-    pcachetime: +new Date(),
     platform: 'yqq',
     hostUin: 0,
     needNewCode: 0,
-    g_tk: 67232076,
+    categoryId: 10000000,
+    pcachetime: +new Date(),
     format: 'json'
   })
 

@@ -4,6 +4,8 @@ var config = require('./config/index')
 var axios = require('axios')
 const bodyParser = require('body-parser')
 
+var port = process.env.PORT || config.build.port
+
 var app = express()
 
 // 代理转发
@@ -71,7 +73,7 @@ apiRoutes.get('/lyric', function (req, res) {
     if (typeof ret === 'string') {
       // 正则匹配括号里面的JSON字符串内容
       var reg = /^\w+\(({.+})\)$/
-      var matches = ret.match(reg)
+      var matches = response.data.match(reg)
       if (matches) {
         ret = JSON.parse(matches[1])
       }
