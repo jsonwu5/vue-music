@@ -15,8 +15,6 @@ import 'common/stylus/index.styl'
 /* eslint-disable no-unused-vars */
 // import vConsole from 'vconsole'
 
-console.log('test')
-
 // 调用fastclick，attach到body，让body下的所有div点击都没有3秒的延迟
 fastclick.attach(document.body)
 
@@ -38,7 +36,7 @@ processSongsUrl(favoriteSongs).then((songs) => {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  render: h => h(App),
+  router,
   store,
-  router
+  render: h => h(App)
 })
