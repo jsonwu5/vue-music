@@ -27,14 +27,12 @@ export function hasClass(el, className) {
  */
 export function getData(el, name, val) {
   const prefix = 'data-'
-  name = prefix + name
-  // 如果有值，则设置 data- name 的值为 val
   if (val) {
-    return el.setAttribute(name, val)
-  } else {
-    // 没有值就获取 data-XXX 的值
-    return el.getAttribute(name)
+    // 如果有值，则设置 data- name 的值为 val
+    return el.setAttribute(prefix + name, val)
   }
+  // 没有值就获取 data-XXX 的值
+  return el.getAttribute(prefix + name)
 }
 
 // 能力检测，创建一个标签并获取style

@@ -110,7 +110,7 @@ export function savePlay(song) {
   let songs = storage.get(PLAY_KEY, [])
   // 插入当前歌曲，如果存在则挪到前面
   insertArray(songs, song, (item) => {
-    return item.id === song.id
+    return song.id === item.id
   }, PLAY_MAX_LENGTH)
   storage.set(PLAY_KEY, songs)
   // 返回新的数组
@@ -147,7 +147,7 @@ export function saveFavorite(song) {
 export function deleteFavorite(song) {
   let songs = storage.get(FAVORITE_KEY, [])
   deleteFromArray(songs, (item) => {
-    return song.id === item.id
+    return item.id === song.id
   })
   storage.set(FAVORITE_KEY, songs)
   return songs

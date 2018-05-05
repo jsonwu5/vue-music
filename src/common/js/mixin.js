@@ -68,9 +68,8 @@ export const playerMixin = {
     getFavoriteIcon(song) {
       if (this.isFavorite(song)) {
         return 'icon-favorite'
-      } else {
-        return 'icon-not-favorite'
       }
+      return 'icon-not-favorite'
     },
     toggleFavorite(song) {
       if (this.isFavorite(song)) {
@@ -102,7 +101,7 @@ export const searchMixin = {
   data() {
     return {
       query: '',
-      refreshDelay: 100
+      refreshDelay: 120
     }
   },
   computed: {
@@ -127,8 +126,7 @@ export const searchMixin = {
     },
     ...mapActions([
       'saveSearchHistory',
-      'deleteSearchHistory',
-      'clearSearchHistory'
+      'deleteSearchHistory'
     ])
   }
 }

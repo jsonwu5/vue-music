@@ -6,17 +6,11 @@ const debug = process.env.NODE_ENV !== 'production'
 
 /**
  * 利用JSONP封装请求
+ * 线上环境地址，根据自己的需要配置修改
  */
 export function getRecommend() {
-  // qq音乐的接口
   const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
 
-  // 拷贝参数
-  // var target = { a: 1 };
-  // var source1 = { b: 2 };
-  // var source2 = { c: 3 };
-  // Object.assign(target, source1, source2);
-  // target // {a:1, b:2, c:3}
   const data = Object.assign({}, commonParams, {
     platform: 'h5',
     uin: 0,
@@ -28,10 +22,7 @@ export function getRecommend() {
 
 export function getDiscList() {
 
-  // 线上环境地址，同学们根据自己的需要配置修改
   const url = debug ? '/api/getDiscList' : 'http://www.jsonwu.com/music/api/getDiscList'
-
-  // const url = '/api/getDiscList'
 
   // 拷贝参数
   const data = Object.assign({}, commonParams, {
