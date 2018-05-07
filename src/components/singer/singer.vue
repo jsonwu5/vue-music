@@ -60,8 +60,8 @@
           // 把前十条都填充到map热门歌手中
           if (index < HOT_SINGER_LEN) {
             map.hot.items.push(new Singer({
-              id: item.Fsinger_mid,
-              name: item.Fsinger_name
+              name: item.Fsinger_name,
+              id: item.Fsinger_mid
             }))
           }
           // 根据Findex（歌手名字首字母）做聚类
@@ -79,9 +79,9 @@
             id: item.Fsinger_mid
           }))
         })
-        // 为了得到有序列表，我们需要处理map
-        let hot = []
+        // 为了得到有序列表，我们需要处理 map
         let ret = []
+        let hot = []
         for (let key in map) {
           let val = map[key]
           if (val.title.match(/[a-zA-Z]/)) {
@@ -98,7 +98,7 @@
         return hot.concat(ret)
       },
       ...mapMutations({
-        setSinger: `SET_SINGER`
+        setSinger: 'SET_SINGER'
       })
     },
     components: {
@@ -110,8 +110,8 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .singer
-    position fixed
+    position: fixed
     top: 88px
-    bottom 0
-    width 100%
+    bottom: 0
+    width: 100%
 </style>

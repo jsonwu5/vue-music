@@ -1,6 +1,6 @@
 <template>
   <transition name="slide">
-    <music-list :rank="rank" :title="title" :bgImage="bgImage" :songs="songs"></music-list>
+    <music-list :rank="rank" :title="title" :bg-image="bgImage" :songs="songs"></music-list>
   </transition>
 </template>
 
@@ -26,14 +26,14 @@
         'topList'
       ])
     },
-    created() {
-      this._getMusicList()
-    },
     data() {
       return {
         songs: [],
         rank: true
       }
+    },
+    created() {
+      this._getMusicList()
     },
     methods: {
       _getMusicList() {

@@ -3,9 +3,9 @@ import 'common/js/hack'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
 import fastclick from 'fastclick'
-import VueLazyLoad from 'vue-lazyload'
+import VueLazyload from 'vue-lazyload'
+import store from './store'
 import { SET_PLAY_HISTORY, SET_FAVORITE_LIST } from './store/mutation-types'
 import { loadPlay, loadFavorite } from 'common/js/cache'
 import { processSongsUrl } from 'common/js/song'
@@ -19,7 +19,7 @@ import 'common/stylus/index.styl'
 fastclick.attach(document.body)
 
 // 图片懒加载
-Vue.use(VueLazyLoad, {
+Vue.use(VueLazyload, {
   loading: require('common/image/default.png')
 })
 

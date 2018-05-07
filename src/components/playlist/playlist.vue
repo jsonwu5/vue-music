@@ -1,6 +1,6 @@
 <template>
   <transition name="list-fade">
-    <div class="playlist" v-show="showFlag" @click="hide">
+    <div class="playlist" @click="hide" v-show="showFlag">
       <div class="list-wrapper" @click.stop>
         <div class="list-header">
           <h1 class="title">
@@ -9,7 +9,7 @@
             <span class="clear" @click="showConfirm"><i class="icon-clear"></i></span>
           </h1>
         </div>
-        <scroll ref="listContent" :refreshDelay="refreshDelay" :data="sequenceList" class="list-content">
+        <scroll ref="listContent" :data="sequenceList" class="list-content" :refreshDelay="refreshDelay">
           <transition-group ref="list" name="list" tag="ul">
             <li :key="item.id" class="item" v-for="(item,index) in sequenceList"
                 @click="selectItem(item,index)">
@@ -18,14 +18,14 @@
               <span @click.stop="toggleFavorite(item)" class="like">
                 <i :class="getFavoriteIcon(item)"></i>
               </span>
-              <span class="delete" @click.stop="deleteOne(item)">
+              <span @click.stop="deleteOne(item)" class="delete">
                 <i class="icon-delete"></i>
               </span>
             </li>
           </transition-group>
         </scroll>
         <div class="list-operate">
-          <div class="add" @click="addSong">
+          <div @click="addSong" class="add">
             <i class="icon-add"></i>
             <span class="text">添加歌曲到队列</span>
           </div>
@@ -45,15 +45,15 @@
   import {playMode} from 'common/js/config'
   import Scroll from 'base/scroll/scroll'
   import Confirm from 'base/confirm/confirm'
-  import {playerMixin} from 'common/js/mixin'
   import AddSong from 'components/add-song/add-song'
+  import {playerMixin} from 'common/js/mixin'
 
   export default {
     mixins: [playerMixin],
     data() {
       return {
         showFlag: false,
-        refreshDelay: 100
+        refreshDelay: 120
       }
     },
     computed: {
@@ -72,6 +72,13 @@
       },
       hide() {
         this.showFlag = false
+      },
+      showConfirm() {
+        this.$refs.confirm.show()
+      },
+      confirmClear() {
+        this.deleteSongList()
+        this.hide()
       },
       getCurrentIcon(item) {
         if (this.currentSong.id === item.id) {
@@ -107,13 +114,6 @@
         setTimeout(() => {
           item.deleting = false
         }, 300)
-      },
-      showConfirm() {
-        this.$refs.confirm.show()
-      },
-      confirmClear() {
-        this.deleteSongList()
-        this.hide()
       },
       addSong() {
         this.$refs.addSong.show()

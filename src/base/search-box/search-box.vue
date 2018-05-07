@@ -1,13 +1,12 @@
 <template>
   <div class="search-box">
     <i class="icon-search"></i>
-    <input ref="query" class="box" v-model="query" :placeholder="placeholder"/>
+    <input ref="query" v-model="query" class="box" :placeholder="placeholder"/>
     <i @click="clear" v-show="query" class="icon-dismiss"></i>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-
   import {debounce} from 'common/js/util'
 
   export default {

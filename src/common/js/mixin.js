@@ -12,7 +12,7 @@ export const playlistMixin = {
   mounted() {
     this.handlePlaylist(this.playlist)
   },
-  activate() {
+  activated() {
     this.handlePlaylist(this.playlist)
   },
   watch: {
@@ -37,8 +37,8 @@ export const playerMixin = {
     },
     ...mapGetters([
       'sequenceList',
-      'currentSong',
       'playlist',
+      'currentSong',
       'mode',
       'favoriteList'
     ]),
@@ -65,18 +65,18 @@ export const playerMixin = {
       })
       this.setCurrentIndex(index)
     },
-    getFavoriteIcon(song) {
-      if (this.isFavorite(song)) {
-        return 'icon-favorite'
-      }
-      return 'icon-not-favorite'
-    },
     toggleFavorite(song) {
       if (this.isFavorite(song)) {
         this.deleteFavoriteList(song)
       } else {
         this.saveFavoriteList(song)
       }
+    },
+    getFavoriteIcon(song) {
+      if (this.isFavorite(song)) {
+        return 'icon-favorite'
+      }
+      return 'icon-not-favorite'
     },
     isFavorite(song) {
       const index = this.favoriteList.findIndex((item) => {
@@ -85,10 +85,10 @@ export const playerMixin = {
       return index > -1
     },
     ...mapMutations({
-      setPlayingState: 'SET_PLAYING_STATE',
-      setCurrentIndex: 'SET_CURRENT_INDEX',
       setPlayMode: 'SET_PLAY_MODE',
-      setPlaylist: 'SET_PLAYLIST'
+      setPlaylist: 'SET_PLAYLIST',
+      setCurrentIndex: 'SET_CURRENT_INDEX',
+      setPlayingState: 'SET_PLAYING_STATE'
     }),
     ...mapActions([
       'saveFavoriteList',
@@ -110,19 +110,19 @@ export const searchMixin = {
     ])
   },
   methods: {
-    blurInput() {
-      this.$refs.searchBox.blur()
-    },
-    // 保存搜索结果
-    saveSearch() {
-      this.saveSearchHistory(this.query)
-    },
     onQueryChange(query) {
       // 处理带空格的情况
       this.query = query.trim()
     },
+    blurInput() {
+      this.$refs.searchBox.blur()
+    },
     addQuery(query) {
       this.$refs.searchBox.setQuery(query)
+    },
+    // 保存搜索结果
+    saveSearch() {
+      this.saveSearchHistory(this.query)
     },
     ...mapActions([
       'saveSearchHistory',

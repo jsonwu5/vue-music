@@ -6,7 +6,7 @@
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
       <div class="play-wrapper">
-        <div class="play" v-show="songs.length>0" ref="playBtn" @click="random">
+        <div ref="playBtn" v-show="songs.length>0" class="play" @click="random">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
@@ -21,9 +21,9 @@
             class="list"
             ref="list">
       <div class="song-list-wrapper">
-        <song-list :rank="rank" @select="selectItem" :songs="songs"></song-list>
+        <song-list :songs="songs" :rank="rank" @select="selectItem"></song-list>
       </div>
-      <div class="loading-container" v-show="!songs.length">
+      <div v-show="!songs.length" class="loading-container">
         <loading></loading>
       </div>
     </scroll>
@@ -80,7 +80,7 @@
     },
     mounted() {
       this.imageHeight = this.$refs.bgImage.clientHeight
-      this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT
+      this.minTransalteY = -this.imageHeight + RESERVED_HEIGHT
       this.$refs.list.$el.style.top = `${this.imageHeight}px`
     },
     methods: {
@@ -114,24 +114,25 @@
       ])
     },
     watch: {
-      scrollY(newY) {
+      scrollY(newVal) {
         // 最多滚动的距离
-        let translateY = Math.max(this.minTranslateY, newY)
-        let zIndex = 0
+        let translateY = Math.max(this.minTransalteY, newVal)
         let scale = 1
+        let zIndex = 0
         let blur = 0
-        const percent = Math.abs(newY / this.imageHeight)
-        if (newY > 0) {
+        const percent = Math.abs(newVal / this.imageHeight)
+        if (newVal > 0) {
           scale = 1 + percent
           zIndex = 10
         } else {
-          blur = Math.min(20 * percent, 20)
+          blur = Math.min(20, percent * 20)
         }
+
         this.$refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`
         // ios高斯模糊
         this.$refs.filter.style[backdrop] = `blur(${blur}px)`
         // 滚动到顶部时s
-        if (newY < this.minTranslateY) {
+        if (newVal < this.minTransalteY) {
           // 设置顶部图片zIndex，盖住歌曲列表
           zIndex = 10
           this.$refs.bgImage.style.paddingTop = 0
@@ -150,8 +151,8 @@
       }
     },
     components: {
-      Loading,
       Scroll,
+      Loading,
       SongList
     }
   }

@@ -5,23 +5,17 @@
       </slot>
     </div>
     <div class="dots">
-      <span class="dot" v-for="(item,index) in dots" :class="{active: currentPageIndex === index}"></span>
+      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots"></span>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import BScroll from 'better-scroll'
   import {addClass} from 'common/js/dom'
+  import BScroll from 'better-scroll'
 
   export default {
-    data() {
-      return {
-        // 控制轮播图上的圆点显示与交互
-        dots: [],
-        currentPageIndex: 0 // 默认为第一个
-      }
-    },
+    name: 'slider',
     // 外部控制组件有哪些属性
     props: {
       loop: {// 循环轮播
@@ -35,6 +29,13 @@
       interval: {// 自动轮播的间隔，毫秒
         type: Number,
         default: 4000
+      }
+    },
+    data() {
+      return {
+        // 控制轮播图上的圆点显示与交互
+        dots: [],
+        currentPageIndex: 0 // 默认为第一个
       }
     },
     // 钩子函数
@@ -71,6 +72,24 @@
         }, 60)
       })
     },
+    activated() {
+      this.slider.enable()
+      let pageIndex = this.slider.getCurrentPage().pageX
+      this.slider.goToPage(pageIndex, 0, 0)
+      this.currentPageIndex = pageIndex
+      if (this.autoPlay) {
+        this._play()
+      }
+    },
+    // 组件销毁时，清理计时器
+    deactivated() {
+      this.slider.disable()
+      clearTimeout(this.timer)
+    },
+    beforeDestroy() {
+      this.slider.disable()
+      clearTimeout(this.timer)
+    },
     methods: {
       refresh() {
         if (this.slider) {
@@ -81,7 +100,6 @@
       // isResize：标识位，是否为resize
       _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
-        // console.log(this.children.length)
 
         // 设置sliderGroup的宽度
         let width = 0
@@ -103,9 +121,6 @@
           width += 2 * sliderWidth
         }
         this.$refs.sliderGroup.style.width = width + 'px'
-      },
-      _initDots() {
-        this.dots = new Array(this.children.length)
       },
       // 初始化轮播图组件插件
       _initSlider() {
@@ -143,6 +158,9 @@
           this._play()
         }
       },
+      _initDots() {
+        this.dots = new Array(this.children.length)
+      },
       _play() {
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
@@ -150,26 +168,7 @@
           this.slider.next()
         }, this.interval)
       }
-    },
-    activated() {
-      this.slider.enable()
-      let pageIndex = this.slider.getCurrentPage().pageX
-      this.slider.goToPage(pageIndex, 0, 0)
-      this.currentPageIndex = pageIndex
-      if (this.autoPlay) {
-        this._play()
-      }
-    },
-    // 组件销毁时，清理计时器
-    deactivated() {
-      this.slider.disable()
-      clearTimeout(this.timer)
-    },
-    beforeDestroy() {
-      this.slider.disable()
-      this.slider.disable()
-      clearTimeout(this.timer)
-    },
+    }
   }
 </script>
 

@@ -3,8 +3,8 @@
     <div class="bar-inner">
       <div class="progress" ref="progress"></div>
       <div class="progress-btn-wrapper" ref="progressBtn"
-           @touchstart.prenvent="progressTouchStart"
-           @touchmove.prenvent="progressTouchMove"
+           @touchstart.prevent="progressTouchStart"
+           @touchmove.prevent="progressTouchMove"
            @touchend="progressTouchEnd"
       >
         <div class="progress-btn"></div>

@@ -4,7 +4,8 @@
                 @enter="enter"
                 @after-enter="afterEnter"
                 @leave="leave"
-                @after-leave="afterLeave">
+                @after-leave="afterLeave"
+    >
       <div class="normal-player" v-show="fullScreen">
         <div class="background">
           <img width="100%" height="100%" :src="currentSong.image">
@@ -36,7 +37,7 @@
               <div v-if="currentLyric">
                 <p ref="lyricLine"
                    class="text"
-                   :class="{'current':currentLineNum === index}"
+                   :class="{'current': currentLineNum ===index}"
                    v-for="(line,index) in currentLyric.lines">{{line.txt}}</p>
               </div>
               <div class="pure-music" v-show="isPureMusic">
@@ -56,7 +57,7 @@
               <progress-bar ref="progressBar" :percent="percent" @percentChange="onProgressBarChange"
                             @percentChanging="onProgressBarChanging"></progress-bar>
             </div>
-            <span class="time time-l">{{format(currentSong.duration)}}</span>
+            <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
           <div class="operators">
             <div class="icon i-left" @click="changeMode">
@@ -106,17 +107,16 @@
 </template>
 
 <script type="text/ecmascript-6">
-
-  import {mapGetters, mapMutations, mapActions} from 'vuex'
+  import { mapGetters, mapMutations, mapActions } from 'vuex'
   import animations from 'create-keyframe-animation'
-  import {prefixStyle} from 'common/js/dom'
+  import { prefixStyle } from 'common/js/dom'
   import ProgressBar from 'base/progress-bar/progress-bar'
   import ProgressCircle from 'base/progress-circle/progress-circle'
-  import {playMode} from 'common/js/config'
+  import { playMode } from 'common/js/config'
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
+  import { playerMixin } from 'common/js/mixin'
   import Playlist from 'components/playlist/playlist'
-  import {playerMixin} from 'common/js/mixin'
 
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
@@ -157,9 +157,9 @@
         return this.currentTime / this.currentSong.duration
       },
       ...mapGetters([
+        'currentIndex',
         'fullScreen',
-        'playing',
-        'currentIndex'
+        'playing'
       ])
     },
     created() {
@@ -237,6 +237,7 @@
       loop() {
         this.$refs.audio.currentTime = 0
         this.$refs.audio.play()
+        this.setPlayingState(true)
         if (this.currentLyric) {
           // 回到开始
           this.currentLyric.seek(0)
@@ -264,15 +265,15 @@
         }
       },
       prev() {
+        // 歌曲没准备好时不让点击
+        if (!this.songReady) {
+          return
+        }
         // 当列表只有一条数据时
         if (this.playlist.length === 1) {
           this.loop()
           return
         } else {
-          // 歌曲没准备好时不让点击
-          if (!this.songReady) {
-            return
-          }
           let index = this.currentIndex - 1
           // 当前为第一首歌时，跳到最后一首歌
           if (index === -1) {
@@ -316,7 +317,7 @@
         const second = this._pad(interval % 60)
         return `${minute}:${second}`
       },
-      onProgressBarChanging(percent) {
+      onProgressBarChanging (percent) {
         this.currentTime = this.currentSong.duration * percent
         if (this.currentLyric) {
           this.currentLyric.seek(this.currentTime * 1000)
@@ -365,7 +366,7 @@
           let lineEl = this.$refs.lyricLine[lineNum - 5]
           this.$refs.lyricList.scrollToElement(lineEl, 1000)
         } else {
-          this.$refs.lyricList.scrollToElement(0, 0, 1000)
+          this.$refs.lyricList.scrollTo(0, 0, 1000)
         }
         // 显示当前播放歌词
         this.playingLyric = txt
@@ -433,6 +434,7 @@
         this.$refs.lyricList.$el.style[transitionDuration] = `${time}ms`
         this.$refs.middleL.style.opacity = opacity
         this.$refs.middleL.style[transitionDuration] = `${time}ms`
+        this.touch.initiated = false
       },
       // 补零函数
       _pad(num, n = 2) {
@@ -463,7 +465,7 @@
        * @param wrapper
        * @param inner
        */
-      syncWrapperTransform(wrapper, inner) {
+      syncWrapperTransform (wrapper, inner) {
         if (!this.$refs[wrapper]) {
           return
         }

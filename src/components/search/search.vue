@@ -17,33 +17,33 @@
           <div class="search-history" v-show="searchHistory.length">
             <h1 class="title">
               <span class="text">搜索历史</span>
-              <span class="clear" @click="showConfirm">
+              <span @click="showConfirm" class="clear">
                 <i class="icon-clear"></i>
               </span>
             </h1>
-            <search-list @select="addQuery" @delete="deleteSearchHistory" :searches="searchHistory"></search-list>
+            <search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
           </div>
         </div>
       </scroll>
     </div>
-    <div ref="searchResult" class="search-result" v-show="query">
-      <suggest ref="suggest" @select="saveSearch" @listScroll="blurInput" :query="query"></suggest>
+    <div class="search-result" v-show="query" ref="searchResult">
+      <suggest @listScroll="blurInput" @select="saveSearch" ref="suggest" :query="query"></suggest>
     </div>
-    <confirm ref="confirm" text="是否清空所有搜索历史" confirmBtnText="清空" @confirm="clearSearchHistory"></confirm>
+    <confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>
     <router-view></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import SearchBox from 'base/search-box/search-box'
+  import SearchList from 'base/search-list/search-list'
+  import Scroll from 'base/scroll/scroll'
+  import Confirm from 'base/confirm/confirm'
+  import Suggest from 'components/suggest/suggest'
   import {getHotKey} from 'api/search'
   import {ERR_OK} from 'api/config'
-  import Suggest from 'components/suggest/suggest'
-  import SearchList from 'base/search-list/search-list'
-  import Confirm from 'base/confirm/confirm'
-  import Scroll from 'base/scroll/scroll'
-  import {mapActions} from 'vuex'
   import {playlistMixin, searchMixin} from 'common/js/mixin'
+  import {mapActions} from 'vuex'
 
   export default {
     mixins: [playlistMixin, searchMixin],
@@ -96,11 +96,11 @@
       }
     },
     components: {
-      Confirm,
       SearchBox,
-      Suggest,
       SearchList,
-      Scroll
+      Scroll,
+      Confirm,
+      Suggest
     }
   }
 </script>

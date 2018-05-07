@@ -20,13 +20,13 @@
         type: Boolean,
         default: false
       },
-      data: {
-        type: Array,
-        default: null
-      },
       listenScroll: {
         type: Boolean,
         default: false
+      },
+      data: {
+        type: Array,
+        default: null
       },
       pullup: {
         type: Boolean,
@@ -88,11 +88,11 @@
         }
       },
       // 代理几个方法，拓展方法，对外提供方法
-      enable() {
-        this.scroll && this.scroll.enable()
-      },
       disable() {
         this.scroll && this.scroll.disable()
+      },
+      enable() {
+        this.scroll && this.scroll.enable()
       },
       refresh() {
         // 重新计算高度

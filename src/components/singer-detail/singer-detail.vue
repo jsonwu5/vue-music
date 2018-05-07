@@ -13,14 +13,6 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    components: {
-      MusicList
-    },
-    data() {
-      return {
-        songs: []
-      }
-    },
     computed: {
       title() {
         return this.singer.name
@@ -31,6 +23,11 @@
       ...mapGetters([
         'singer'
       ])
+    },
+    data() {
+      return {
+        songs: []
+      }
     },
     created() {
       this._getDetail()
@@ -61,14 +58,14 @@
         })
         return ret
       }
+    },
+    components: {
+      MusicList
     }
   }
-
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "~common/stylus/variable"
-
   .slide-enter-active, .slide-leave-active
     transition: all 0.3s
 

@@ -17,7 +17,7 @@ apiRoutes.get('/getDiscList', function (req, res) {
 
   axios.get(url, {
     headers: {
-      referer: 'https://c.y.qq.com',
+      referer: 'https://c.y.qq.com/',
       host: 'c.y.qq.com'
     },
     params: req.query
@@ -64,7 +64,7 @@ apiRoutes.get('/lyric', function (req, res) {
 
   axios.get(url, {
     headers: {
-      referer: 'https://c.y.qq.com',
+      referer: 'https://c.y.qq.com/',
       host: 'c.y.qq.com'
     },
     params: req.query
@@ -108,7 +108,7 @@ app.use(compression())
 app.use(express.static('./dist'))
 
 // 没有配置端口则从config中的index.js中读取端口配置
-var port = process.env.PORT || config.build.port
+// var port = process.env.PORT || config.build.port
 
 module.exports = app.listen(port, function (err) {
   if (err) {

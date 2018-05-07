@@ -1,10 +1,10 @@
 <template>
-  <Scroll class="listview"
-          :data="data"
-          ref="listview"
-          :listenScroll="listenScroll"
+  <scroll @scroll="scroll"
+          :listen-scroll="listenScroll"
           :probe-type="probeType"
-          @scroll="scroll">
+          :data="data"
+          class="listview"
+          ref="listview">
     <ul>
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
@@ -24,13 +24,13 @@
         </li>
       </ul>
     </div>
-    <div class="list-fixed" v-show="fixedTitle" ref="fixed">
-      <h1 class="fixed-title">{{fixedTitle}}</h1>
+    <div class="list-fixed" ref="fixed" v-show="fixedTitle">
+      <div class="fixed-title">{{fixedTitle}} </div>
     </div>
     <div v-show="!data.length" class="loading-container">
       <loading></loading>
     </div>
-  </Scroll>
+  </scroll>
 </template>
 
 <script type="text/ecmascript-6">
@@ -54,10 +54,10 @@
     },
     // 让两个函数之间获取到同一个数据
     created() {
-      this.touch = {}
-      this.listenScroll = true
-      this.listHeight = []
       this.probeType = 3
+      this.listenScroll = true
+      this.touch = {}
+      this.listHeight = []
     },
     data() {
       return {
@@ -108,6 +108,7 @@
         let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
         // 计算该滚动到第几个位置,先转为整形数，再相加
         let anchorIndex = parseInt(this.touch.anchorIndex) + delta
+
         this._scrollTo(anchorIndex)
       },
       refresh() {
@@ -152,7 +153,7 @@
       },
       scrollY(newY) {
         const listHeight = this.listHeight
-        // 当滚动到顶部， newY>0
+        // 当滚动到顶部，newY>0
         if (newY > 0) {
           this.currentIndex = 0
           return
@@ -185,6 +186,7 @@
       Loading
     }
   }
+
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

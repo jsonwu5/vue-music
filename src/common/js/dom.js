@@ -1,12 +1,4 @@
 // dom通用操作相关
-/**
- * 添加Class样式
- * @param el {Object} DOM对象
- * @param className {String} 样式类名
- */
-export function addClass(el, className) {
-  el.classList.add(className)
-}
 
 /**
  * 判断是否已经存在Class
@@ -17,6 +9,17 @@ export function addClass(el, className) {
 export function hasClass(el, className) {
   return el.classList.contains(className)
 }
+
+/**
+ * 添加Class样式
+ * @param el {Object} DOM对象
+ * @param className {String} 样式类名
+ */
+export function addClass(el, className) {
+  el.classList.add(className)
+}
+
+
 
 /**
  * 获取DOM中 data- 后面指定的 data-XXX 的值

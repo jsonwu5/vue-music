@@ -2,14 +2,14 @@
   <div class="rank" ref="rank">
     <scroll :data="topList" class="toplist" ref="toplist">
       <ul>
-        <li class="item" v-for="item in topList" @click="selectItem(item)">
+        <li @click="selectItem(item)" class="item" v-for="item in topList">
           <div class="icon">
             <img width="100" height="100" v-lazy="item.picUrl"/>
           </div>
           <ul class="songlist">
-            <li class="song" v-for="(song, index) in item.songList">
+            <li class="song" v-for="(song,index) in item.songList">
               <span>{{index + 1}}</span>
-              <span>{{song.songname}}-{{song.singgername}}</span>
+              <span>{{song.songname}}-{{song.singername}}</span>
             </li>
           </ul>
         </li>
@@ -23,7 +23,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import {getTopList} from 'api/rank'

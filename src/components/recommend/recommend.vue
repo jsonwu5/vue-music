@@ -55,6 +55,7 @@
     },
     created() {
       this._getRecommend()
+
       this._getDiscList()
     },
     activated() {
@@ -112,11 +113,10 @@
     },
     components: {
       Slider,
-      Scroll,
-      Loading
+      Loading,
+      Scroll
     }
   }
-
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

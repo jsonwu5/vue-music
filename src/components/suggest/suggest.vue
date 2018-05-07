@@ -1,11 +1,11 @@
 <template>
-  <scroll class="suggest"
+  <scroll ref="suggest"
+          class="suggest"
           :data="result"
           :pullup="pullup"
           :beforeScroll="beforeScroll"
           @scrollToEnd="searchMore"
           @beforeScroll="listScroll"
-          ref="suggest"
   >
     <ul class="suggest-list">
       <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
@@ -25,7 +25,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import NoResult from 'base/no-result/no-result'
@@ -40,25 +39,28 @@
 
   export default {
     props: {
-      query: {
-        type: String,
-        default: ''
-      },
       showSinger: {
         type: Boolean,
         default: true
+      },
+      query: {
+        type: String,
+        default: ''
       }
     },
     data() {
       return {
         page: 1,
-        result: [],
         pullup: true,
         beforeScroll: true,
-        hasMore: true
+        hasMore: true,
+        result: []
       }
     },
     methods: {
+      refresh() {
+        this.$refs.suggest.refresh()
+      },
       search() {
         this.page = 1
         this.hasMore = true
@@ -86,19 +88,8 @@
           }
         })
       },
-      getIconCls(item) {
-        if (item.type === TYPE_SINGER) {
-          return 'icon-mine'
-        } else {
-          return 'icon-music'
-        }
-      },
-      getDisplayName(item) {
-        if (item.type === TYPE_SINGER) {
-          return item.singername
-        } else {
-          return `${item.name}-${item.singer}`
-        }
+      listScroll() {
+        this.$emit('listScroll')
       },
       selectItem(item) {
         if (item.type === TYPE_SINGER) {
@@ -114,18 +105,20 @@
           this.insertSong(item)
         }
         // 派发事件，存储搜索历史
-        this.$emit('select')
+        this.$emit('select', item)
       },
-      refresh() {
-        this.$refs.suggest.refresh()
+      getDisplayName(item) {
+        if (item.type === TYPE_SINGER) {
+          return item.singername
+        } else {
+          return `${item.name}-${item.singer}`
+        }
       },
-      listScroll() {
-        this.$emit('listScroll')
-      },
-      _checkMore(data) {
-        const song = data.song
-        if (!song.list.length || (song.curnum + (song.curpage - 1) * perpage) >= song.totalnum) {
-          this.hasMore = false
+      getIconCls(item) {
+        if (item.type === TYPE_SINGER) {
+          return 'icon-mine'
+        } else {
+          return 'icon-music'
         }
       },
       _getResult(data) {
@@ -134,12 +127,12 @@
           // 扩展运算符，ES6
           ret.push({...data.zhida, ...{type: TYPE_SINGER}})
         }
-        return processSongsUrl(this._normalizeSong(data.song.list)).then((songs) => {
+        return processSongsUrl(this._normalizeSongs(data.song.list)).then((songs) => {
           ret = ret.concat(songs)
           return ret
         })
       },
-      _normalizeSong(list) {
+      _normalizeSongs(list) {
         let ret = []
         list.forEach((musicData) => {
           if (isValidMusic(musicData)) {
@@ -147,6 +140,12 @@
           }
         })
         return ret
+      },
+      _checkMore(data) {
+        const song = data.song
+        if (!song.list.length || (song.curnum + (song.curpage - 1) * perpage) >= song.totalnum) {
+          this.hasMore = false
+        }
       },
       ...mapMutations({
         setSinger: 'SET_SINGER'

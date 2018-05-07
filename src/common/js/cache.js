@@ -3,17 +3,17 @@ import storage from 'good-storage'
 // 搜索的存储key
 const SEARCH_KEY = '__search__'
 // 最大条数
-const SEARCH_MAX_LENGTH = 15
+const SEARCH_MAX_LEN = 15
 
 // 播放key
 const PLAY_KEY = '__play__'
 // 最大播放歌曲历史数据条数
-const PLAY_MAX_LENGTH = 200
+const PLAY_MAX_LEN = 200
 
 // 收藏歌曲key
 const FAVORITE_KEY = '__favorite__'
 // 最大收藏条数
-const FAVORITE_MAX_LENGTH = 200
+const FAVORITE_MAX_LEN = 200
 
 /**
  * 插入一条并删除最后一条，保持15条
@@ -64,18 +64,11 @@ export function saveSearch(query) {
   let searches = storage.get(SEARCH_KEY, [])
   insertArray(searches, query, (item) => {
     return item === query
-  }, SEARCH_MAX_LENGTH)
+  }, SEARCH_MAX_LEN)
   storage.set(SEARCH_KEY, searches)
   return searches
 }
 
-/**
- * 从本地缓存读取Search列表
- * @return {*}
- */
-export function loadSearch() {
-  return storage.get(SEARCH_KEY, [])
-}
 
 /**
  * 删除搜索历史记录
@@ -102,6 +95,14 @@ export function clearSearch() {
 }
 
 /**
+ * 从本地缓存读取Search列表
+ * @return {*}
+ */
+export function loadSearch() {
+  return storage.get(SEARCH_KEY, [])
+}
+
+/**
  * 存储当前的sonog
  * @param song
  */
@@ -111,7 +112,7 @@ export function savePlay(song) {
   // 插入当前歌曲，如果存在则挪到前面
   insertArray(songs, song, (item) => {
     return song.id === item.id
-  }, PLAY_MAX_LENGTH)
+  }, PLAY_MAX_LEN)
   storage.set(PLAY_KEY, songs)
   // 返回新的数组
   return songs
@@ -134,7 +135,7 @@ export function saveFavorite(song) {
   let songs = storage.get(FAVORITE_KEY, [])
   insertArray(songs, song, (item) => {
     return song.id === item.id
-  }, FAVORITE_MAX_LENGTH)
+  }, FAVORITE_MAX_LEN)
   storage.set(FAVORITE_KEY, songs)
   return songs
 }

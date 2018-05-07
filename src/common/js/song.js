@@ -57,7 +57,7 @@ export function createSong(musicData) {
  * @param singer {Array} 歌手数组
  * @return {string} 返回拼接好的歌手字符串
  */
-export function filterSinger(singer) {
+function filterSinger(singer) {
   let ret = []
   if (!singer) {
     return ''
