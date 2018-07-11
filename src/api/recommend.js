@@ -22,7 +22,7 @@ export function getRecommend() {
 
 export function getDiscList() {
 
-  const url = debug ? '/api/getDiscList' : 'http://www.jsonwu.com/music/api/getDiscList'
+  const url = debug ? '/api/getDiscList' : 'http://193.112.107.209/music/api/getDiscList'
 
   // 拷贝参数
   const data = Object.assign({}, commonParams, {
@@ -49,7 +49,7 @@ export function getDiscList() {
  * @param disstid {String} 歌单ID
  */
 export function getSongList(disstid) {
-  const url = debug ? '/api/getCdInfo' : 'http://www.jsonwu.com/music/api/getCdInfo'
+  const url = debug ? '/api/getCdInfo' : 'http://193.112.107.209/music/api/getCdInfo'
 
   const data = Object.assign({}, commonParams, {
     disstid,

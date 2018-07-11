@@ -79,6 +79,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
               ret = JSON.parse(matches[1])
             }
           }
+
           res.json(ret)
         }).catch((e) => {
           console.log(e)
