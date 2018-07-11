@@ -12,6 +12,8 @@ const SingerDetail = () => import('components/singer-detail/singer-detail')
 const Disc = () => import('components/disc/disc')
 const TopList = () => import('components/top-list/top-list')
 const UserCenter = () => import('components/user-center/user-center')
+const MvList = () => import('components/mv-list/mv-list')
+const MvPlayer = () => import('components/mv-player/mv-player')
 
 // 注册
 export default new Router({
@@ -67,6 +69,16 @@ export default new Router({
     {
       path: '/user',
       component: UserCenter
-    }
+    },
+    {
+      path: '/mv',
+      component: MvList,
+      children: [
+        {
+          path: ':vid',
+          component: MvPlayer
+        }
+      ]
+    },
   ]
 })

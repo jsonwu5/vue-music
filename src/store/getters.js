@@ -37,3 +37,5 @@ export const favoriteList = (state) => {
     return new Song(song)
   })
 }
+
+export const mvUrl = state => state.mvUrl

@@ -25,7 +25,8 @@ const state = {
   // 播放历史数据，从本地历史读取数据
   playHistory: [],
   // 收藏列表
-  favoriteList: []
+  favoriteList: [],
+  mvUrl: []
 }
 
 export default state

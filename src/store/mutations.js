@@ -38,6 +38,9 @@ const mutations = {
   },
   [types.SET_FAVORITE_LIST](state, list) {
     state.favoriteList = list
+  },
+  [types.SET_MV_URL](state, list) {
+    state.mvUrl = list
   }
 }
 

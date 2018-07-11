@@ -100,6 +100,82 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(e)
         })
       })
+
+      // 获取指定歌手的MV列表
+      app.get('/api/getSingerMv', function (req, res) {
+        const url = 'https://c.y.qq.com/mv/fcgi-bin/fcg_singer_mv.fcg'
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          let ret = response.data
+          if (typeof ret === 'string') {
+            // 匹配 以单词+(开头 (这里是子表达式) 以)\r\n结尾
+            const reg = /^\w+\(({.+})\)\r\n$/
+            const matches = ret.match(reg)
+            if (matches) {
+              ret = JSON.parse(matches[1])
+            }
+          }
+          res.json(ret)
+        }).catch((e) => {
+          console.log(e)
+        })
+      })
+
+      // 获取指MV的信息
+      app.get('/api/getMvInfo', function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        console.log(req.query.vid)
+        axios.get(url, {
+          headers: {
+            referer: 'https://u.y.qq.com/mv/v/' + req.query.vid + '.html',
+            host: 'u.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          let ret = response.data
+          if (typeof ret === 'string') {
+            // 匹配 以单词+(开头 (这里是子表达式) 以)结尾
+            const reg = /^\w+\(({.+})\)$/
+            const matches = ret.match(reg)
+            if (matches) {
+              ret = JSON.parse(matches[1])
+            }
+          }
+          res.json(ret)
+        }).catch((e) => {
+          console.log(e)
+        })
+      })
+
+      // 获取指MV URL
+      app.get('/api/getMvUrl', function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        axios.get(url, {
+          headers: {
+            referer: 'https://u.y.qq.com/',
+            host: 'u.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          let ret = response.data
+          if (typeof ret === 'string') {
+            // 匹配 以单词+(开头 (这里是子表达式) 以)结尾
+            const reg = /^\w+\(({.+})\)$/
+            const matches = ret.match(reg)
+            if (matches) {
+              ret = JSON.parse(matches[1])
+            }
+          }
+          res.json(ret)
+        }).catch((e) => {
+          console.log(e)
+        })
+      })
     },
     historyApiFallback: true,
     hot: true,
