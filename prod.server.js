@@ -8,13 +8,12 @@ var port = process.env.PORT || config.build.port
 
 var app = express()
 
-//设置跨域访问
+// 设置跨域访问
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "X-Requested-With")
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
   res.header("X-Powered-By",' 3.2.1')
-  res.header("Content-Type", "application/json;charset=utf-8")
   next()
 })
 
@@ -111,7 +110,7 @@ app.post('/api/getPurlUrl', bodyParser.json(), function (req, res) {
 })
 
 // 获取指定歌手的MV列表
-app.get('/api/getSingerMv', function (req, res) {
+apiRoutes.get('/api/getSingerMv', function (req, res) {
   const url = 'https://c.y.qq.com/mv/fcgi-bin/fcg_singer_mv.fcg'
   axios.get(url, {
     headers: {
@@ -136,7 +135,7 @@ app.get('/api/getSingerMv', function (req, res) {
 })
 
 // 获取指MV的信息
-app.get('/api/getMvInfo', function (req, res) {
+apiRoutes.get('/api/getMvInfo', function (req, res) {
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
   console.log(req.query.vid)
   axios.get(url, {
@@ -162,7 +161,7 @@ app.get('/api/getMvInfo', function (req, res) {
 })
 
 // 获取指MV URL
-app.get('/api/getMvUrl', function (req, res) {
+apiRoutes.get('/api/getMvUrl', function (req, res) {
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
   axios.get(url, {
     headers: {
