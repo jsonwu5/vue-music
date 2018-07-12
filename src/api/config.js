@@ -14,3 +14,5 @@ export const options = {
 
 // 语义化状态码，常量，0表示正确的值
 export const ERR_OK = 0
+
+export const DOMAIN = 'http://193.112.107.209/music/'
