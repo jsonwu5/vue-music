@@ -1,5 +1,5 @@
 import jsonp from 'common/js/jsonp'
-import {commonParams, options} from './config'
+import {commonParams, options, DOMAIN} from './config'
 import axios from 'axios'
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -22,7 +22,7 @@ export function getRecommend() {
 
 export function getDiscList() {
 
-  const url = debug ? '/api/getDiscList' : 'http://193.112.107.209/music/api/getDiscList'
+  const url = debug ? '/api/getDiscList' : DOMAIN + '/api/getDiscList'
 
   // 拷贝参数
   const data = Object.assign({}, commonParams, {
@@ -49,7 +49,7 @@ export function getDiscList() {
  * @param disstid {String} 歌单ID
  */
 export function getSongList(disstid) {
-  const url = debug ? '/api/getCdInfo' : 'http://193.112.107.209/music/api/getCdInfo'
+  const url = debug ? '/api/getCdInfo' : DOMAIN + '/api/getCdInfo'
 
   const data = Object.assign({}, commonParams, {
     disstid,
